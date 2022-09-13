@@ -5,38 +5,42 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-
-
-  <div>
-    <a-button type="primary" danger>Primary</a-button>
-    <a-button danger>Default</a-button>
-    <a-button type="dashed" danger>Dashed</a-button>
-    <a-button type="text" danger>Text</a-button>
-    <a-button type="link" danger>Link</a-button>
-  </div>
-
-
+  <a-layout>
+    <a-layout-header class="header">
+      <div class="logo" />
+      <a-menu
+          v-model:selectedKeys="selectedKeys1"
+          theme="dark"
+          mode="horizontal"
+          :style="{ lineHeight: '64px' }"
+      >
+        <a-menu-item key="1">nav 1</a-menu-item>
+        <a-menu-item key="2">nav 2</a-menu-item>
+        <a-menu-item key="3">nav 3</a-menu-item>
+      </a-menu>
+    </a-layout-header>
+    <router-view/>
+    <a-layout-footer style="text-align: center">
+      wiki ©2022 Created by Zhuima
+    </a-layout-footer>
+  </a-layout>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+<style>
+#components-layout-demo-top-side-2 .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.ant-row-rtl #components-layout-demo-top-side-2 .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.site-layout-background {
+  background: #fff;
 }
 </style>
