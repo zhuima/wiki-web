@@ -56,8 +56,36 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
+import axios from 'axios'
 
 export default defineComponent({
   name: 'Home',
+  // vue3 中大部分生命周期方法都被setup取代
+  setup(){
+    console.log("setup");
+
+    // 响应式数据
+    const ebooks = ref();
+
+    // 另外一种方式, vue3新增的方式
+    const ebooks1 = reactive({books: []});
+
+    onMounted(() => {
+      console.log("onMounted");
+      axios.get('http://127.0.0.1:8080/api/v1/ebooks?page=1&size=10').then(
+          (response) =>  {
+            const data = response.data;
+            ebooks.value = data.content;
+            ebooks1.books = data.content;
+            console.log(response);
+          }
+      )
+    })
+    return {
+      ebooks,
+      books: toRef(ebooks1, "books")
+    }
+
+  }
 });
 </script>

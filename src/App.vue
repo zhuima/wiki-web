@@ -1,46 +1,22 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import TheHeader from './components/the-header.vue'
+import TheFooter from './components/the-footer.vue'
 </script>
 
 <template>
-  <a-layout>
-    <a-layout-header class="header">
-      <div class="logo" />
-      <a-menu
-          v-model:selectedKeys="selectedKeys1"
-          theme="dark"
-          mode="horizontal"
-          :style="{ lineHeight: '64px' }"
-      >
-        <a-menu-item key="1">nav 1</a-menu-item>
-        <a-menu-item key="2">nav 2</a-menu-item>
-        <a-menu-item key="3">nav 3</a-menu-item>
-      </a-menu>
-    </a-layout-header>
+  <a-layout style="min-height: 100vh">
+
+    <!-- Header 组件 -->
+    <TheHeader />
+    <!--    router-view 的工作机制-->
+
+    <!-- Sidebar 组件 -->
+
     <router-view/>
-    <a-layout-footer style="text-align: center">
-      wiki ©2022 Created by Zhuima
-    </a-layout-footer>
+
+    <!-- Footer 组件 -->
+    <TheFooter />
   </a-layout>
 </template>
-
-<style>
-#components-layout-demo-top-side-2 .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.ant-row-rtl #components-layout-demo-top-side-2 .logo {
-  float: right;
-  margin: 16px 0 16px 24px;
-}
-
-.site-layout-background {
-  background: #fff;
-}
-</style>
