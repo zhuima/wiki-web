@@ -72,8 +72,9 @@
 
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
 import axios from 'axios';
+import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
+
 
 export default defineComponent({
   name: 'Home',
@@ -89,7 +90,7 @@ export default defineComponent({
 
     onMounted(() => {
       console.log("onMounted");
-      axios.get('http://127.0.0.1:8080/api/v1/ebooks?page=1&size=10').then(
+      axios.get('/ebooks?page=1&size=10').then(
           (response) =>  {
             const data = response.data;
             ebooks.value = data.content.list;
