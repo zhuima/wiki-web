@@ -1,31 +1,37 @@
+import { vue } from '@vitejs/plugin-vue'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/home.vue'
 import About from '../views/About.vue'
 import AdminEbook from '../views/admin/AdminEbook.vue'
+import AdminCategory from '../views/admin/AdminCategory.vue'
 
 const routes: Array<RouteRecordRaw> = [
-    {
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: About
-    },
-    {
-        path: '/admin/ebook',
-        name: 'AdminEbook',
-        component: AdminEbook
-    },
-
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
+  },
+  {
+    path: '/admin/ebook',
+    name: 'AdminEbook',
+    component: AdminEbook,
+  },
+  {
+    path: '/admin/category',
+    name: 'AdminCategory',
+    component: AdminCategory,
+  },
 ]
 
 const router = createRouter({
-    // @ts-ignore
-    history: createWebHistory(import.meta.env.BASE_URL),
-    routes
+  // @ts-ignore
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
 })
 
 // // 路由登录拦截

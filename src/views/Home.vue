@@ -90,7 +90,7 @@ export default defineComponent({
 
     onMounted(() => {
       console.log("onMounted");
-      axios.get('/ebooks?page=1&size=10').then(
+      axios.get('/api/v1/ebooks?page=1&size=10').then(
           (response) =>  {
             const data = response.data;
             ebooks.value = data.content.list;
