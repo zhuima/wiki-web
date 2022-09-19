@@ -412,7 +412,7 @@ import {Tool} from "../../util/tool";
           content: '将删除：【' + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
           onOk() {
             // console.log(ids)
-            axios.delete("/api/v1/doc/" + deleteIds.join(",")).then((response) => {
+            axios.delete("/api/v1/doc/list/" + deleteIds.join(",")).then((response) => {
               const data = response.data; // data = commonResp
               if (data.success) {
                 // 重新加载列表
