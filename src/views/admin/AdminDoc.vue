@@ -247,7 +247,8 @@ import {Tool} from "../../util/tool";
       };
 
       // -------- 表单 ---------
-      const doc = ref({});
+      const doc = ref();
+      doc.value = {};
       doc.value = {
         ebookId: route.query.ebookId
       };
