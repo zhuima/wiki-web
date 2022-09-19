@@ -196,7 +196,7 @@
         loading.value = true;
         // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
         level1.value = [];
-        axios.get("/api/v1/categorys", {
+        axios.get("/api/v1/docs", {
           params: {
             page: 1,
             size: 100
@@ -223,7 +223,7 @@
       const modalLoading = ref(false);
       const handleModalOk = () => {
         modalLoading.value = true;
-        axios.post("/api/v1/categorys", category.value).then((response) => {
+        axios.post("/api/v1/docs", category.value).then((response) => {
           modalLoading.value = false;
           const data = response.data; // data = commonResp
           if (data.success) {
@@ -254,7 +254,7 @@
       };
 
       const handleDelete = (id: number) => {
-        axios.delete("/api/v1/category/" + id).then((response) => {
+        axios.delete("/api/v1/doc/" + id).then((response) => {
           const data = response.data; // data = commonResp
           if (data.success) {
             // 重新加载列表
