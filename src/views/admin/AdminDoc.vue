@@ -221,16 +221,11 @@ import {Tool} from "../../util/tool";
         loading.value = true;
         // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
         level1.value = [];
-        axios.get("/api/v1/docs", {
-          params: {
-            page: 1,
-            size: 100
-          }
-        }).then((response) => {
+        axios.get("/api/v1/all/" + route.query.ebookId).then((response) => {
           loading.value = false;
           const data = response.data;
           if (data.success) {
-            docs.value = data.content.list;
+            docs.value = data.content;
             console.log("原始数组：", docs.value);
 
             level1.value = [];
@@ -248,7 +243,6 @@ import {Tool} from "../../util/tool";
 
       // -------- 表单 ---------
       const doc = ref();
-      doc.value = {};
       doc.value = {
         ebookId: route.query.ebookId
       };
@@ -353,7 +347,7 @@ import {Tool} from "../../util/tool";
        * 内容查询
        **/
       const handleQueryContent = () => {
-        axios.get("/doc/find-content/" + doc.value.id).then((response) => {
+        axios.get("/api/v1/doc/find-content/" + doc.value.id).then((response) => {
           const data = response.data;
           if (data.success) {
             editor.txt.html(data.content)
@@ -374,6 +368,8 @@ import {Tool} from "../../util/tool";
         editor.txt.html("");
         modalVisible.value = true;
         doc.value = Tool.copy(record);
+
+        console.log("-------->", doc.value);
         handleQueryContent();
 
         // 不能选择当前节点及其所有子孙节点，作为父节点，会使树断开
