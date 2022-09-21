@@ -2,51 +2,6 @@
 
 
   <a-layout>
-    <a-layout-sider width="200" style="background: #fff">
-      <a-menu
-          v-model:selectedKeys="selectedKeys2"
-          v-model:openKeys="openKeys"
-          mode="inline"
-          :style="{ height: '100%', borderRight: 0 }"
-      >
-        <a-sub-menu key="sub1">
-          <template #title>
-              <span>
-                <user-outlined />
-                subnav 1
-              </span>
-          </template>
-          <a-menu-item key="1">option1</a-menu-item>
-          <a-menu-item key="2">option2</a-menu-item>
-          <a-menu-item key="3">option3</a-menu-item>
-          <a-menu-item key="4">option4</a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <template #title>
-              <span>
-                <laptop-outlined />
-                subnav 2
-              </span>
-          </template>
-          <a-menu-item key="5">option5</a-menu-item>
-          <a-menu-item key="6">option6</a-menu-item>
-          <a-menu-item key="7">option7</a-menu-item>
-          <a-menu-item key="8">option8</a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub3">
-          <template #title>
-              <span>
-                <notification-outlined />
-                subnav 3
-              </span>
-          </template>
-          <a-menu-item key="9">option9</a-menu-item>
-          <a-menu-item key="10">option10</a-menu-item>
-          <a-menu-item key="11">option11</a-menu-item>
-          <a-menu-item key="12">option12</a-menu-item>
-        </a-sub-menu>
-      </a-menu>
-    </a-layout-sider>
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
@@ -89,11 +44,9 @@
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
-            <router-link :to="'/admin/doc?userId=' + record.id">
-              <a-button type="primary">
-                文档管理
-              </a-button>
-            </router-link>
+            <a-button type="primary" @click="resetPassword(record)">
+              重置密码
+            </a-button>
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
@@ -124,17 +77,33 @@
   >
     <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="登录名">
-        <a-input v-model:value="user.loginName" :disabled="!!user.id" />
+        <a-input v-model:value="user.loginName" :disabled="user.id" />
       </a-form-item>
       <a-form-item label="昵称">
         <a-input v-model:value="user.username" />
       </a-form-item>
-      <a-form-item label="密码">
+      <a-form-item label="密码" v-show="!user.id">
         <a-input v-model:value="user.password" type="password" />
       </a-form-item>
 
     </a-form>
   </a-modal>
+
+
+  <a-modal
+      title="重置密码"
+      v-model:visible="resetModalVisible"
+      :confirm-loading="resetModalLoading"
+      @ok="handleResetModalOk"
+  >
+    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="新密码">
+        <a-input v-model:value="user.password" type="password"/>
+      </a-form-item>
+    </a-form>
+  </a-modal>
+
+
 </template>
 
 
@@ -267,6 +236,7 @@
       };
 
       const handleDelete = (id: number) => {
+        console.log("要删除用户的id是:", id)
         axios.delete("/api/v1/user/" + id).then((response) => {
           const data = response.data; // data = commonResp
           if (data.success) {
@@ -327,6 +297,43 @@
         return result;
       };
 
+      // -------- 重置密码 ---------
+      const resetModalVisible = ref(false);
+      const resetModalLoading = ref(false);
+      const handleResetModalOk = () => {
+        resetModalLoading.value = true;
+
+        user.value.password = hexMd5(user.value.password + KEY);
+
+        axios.post("/api/v1/user/reset-password", user.value).then((response) => {
+          resetModalLoading.value = false;
+          const data = response.data; // data = commonResp
+          if (data.success) {
+            resetModalVisible.value = false;
+
+            // 重新加载列表
+            handleQuery({
+              page: pagination.value.current,
+              size: pagination.value.pageSize,
+            });
+          } else {
+            message.error(data.message);
+          }
+        });
+      };
+
+      /**
+       * 重置密码
+       */
+      const resetPassword = (record: any) => {
+        resetModalVisible.value = true;
+        user.value = Tool.copy(record);
+        user.value.password = null;
+      };
+
+
+
+
       onMounted(() => {
         handleQuery({
           page: 1,
@@ -353,7 +360,11 @@
         handleModalOk,
         level1,
 
-        handleDelete
+        handleDelete,
+        resetModalVisible,
+        resetModalLoading,
+        handleResetModalOk,
+        resetPassword
       }
     }
   });

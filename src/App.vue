@@ -14,7 +14,8 @@ import TheFooter from './components/the-footer.vue'
 
     <!-- Sidebar 组件 -->
 
-    <router-view/>
+      <router-view/>
+
 
     <!-- Footer 组件 -->
     <TheFooter />
