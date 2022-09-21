@@ -2,14 +2,13 @@
   <a-layout-header class="header">
     <div class="logo">个人知识库</div>
     <a-menu
-        v-model:selectedKeys="selectedKeys1"
         theme="dark"
         mode="horizontal"
         :style="{ lineHeight: '64px' }"
     >
       <a-menu-item key="/">
         <router-link to="/">首页</router-link>
-        </a-menu-item>
+      </a-menu-item>
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
@@ -145,7 +144,7 @@ export default defineComponent({
 }
 .login-menu {
   float: right;
-  color: white;
+  /*color: white;*/
   padding-left: 10px;
 }
 

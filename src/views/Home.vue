@@ -1,4 +1,29 @@
 <template>
+  <a-layout>
+    <a-layout-sider width="200" style="background: #fff">
+      <a-menu
+          mode="inline"
+          :style="{ height: '100%', borderRight: 0 }"
+          @click="handleClick"
+          :openKeys="openKeys"
+      >
+        <a-menu-item key="welcome">
+          <MailOutlined />
+          <span>欢迎</span>
+        </a-menu-item>
+        <a-sub-menu v-for="item in level1" :key="item.id" :disabled="true">
+          <template v-slot:title>
+            <span><user-outlined />{{item.name}}</span>
+          </template>
+          <a-menu-item v-for="child in item.children" :key="child.id">
+            <MailOutlined /><span>{{child.name}}</span>
+          </a-menu-item>
+        </a-sub-menu>
+        <a-menu-item key="tip" :disabled="true">
+          <span>以上菜单在分类管理配置</span>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
     <a-layout-content
     :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
   >
@@ -34,6 +59,8 @@
         </template>
       </a-list>
   </a-layout-content>
+  </a-layout>
+
 </template>
 
 
@@ -43,7 +70,6 @@ import axios from 'axios';
 import { message } from 'ant-design-vue';
 import {Tool} from "../util/tool";
 import TheWelcome from '../components/the-welcome.vue';
-import TheSidebar from "./components/the-sidebar.vue";
 
 // const listData: any = [];
 // for (let i = 0; i < 23; i++) {
@@ -61,8 +87,7 @@ import TheSidebar from "./components/the-sidebar.vue";
 export default defineComponent({
   name: 'Home',
   components: {
-    TheWelcome,
-    TheSidebar
+    TheWelcome
   },
   setup() {
     const ebooks = ref();
